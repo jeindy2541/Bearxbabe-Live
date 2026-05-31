@@ -5,183 +5,203 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🔥 Bearxbabe Live</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
 
-  <!-- TOAST -->
-  <div id="toast" class="toast hidden"></div>
+<div id="toast" class="toast hidden"></div>
+<div id="floatLayer" class="float-layer"></div>
 
-  <!-- REACTION FLOAT LAYER (full screen) -->
-  <div id="floatLayer" class="float-layer"></div>
-
-  <!-- =================== LOGIN =================== -->
-  <section id="loginScreen" class="login-screen">
-    <div class="login-card">
-      <div class="login-logo">🔥</div>
-      <h1 class="login-title">Bearxbabe Live</h1>
-      <p class="login-sub">ห้องฟังเพลงร่วมกัน · เลือก Avatar แล้วเข้าห้องได้เลย</p>
-
-      <input id="nameInput" maxlength="20" placeholder="ชื่อของคุณ..." autocomplete="off" class="login-input" />
-
-      <div class="avatar-section">
-        <p class="avatar-label">เลือก Avatar</p>
-        <div class="emoji-tabs">
-          <button class="etab active" data-group="all">ทั้งหมด</button>
-          <button class="etab" data-group="face">หน้า</button>
-          <button class="etab" data-group="music">เพลง</button>
-          <button class="etab" data-group="animal">สัตว์</button>
-          <button class="etab" data-group="fire">เท่</button>
-        </div>
-        <div id="emojiGrid" class="emoji-grid"></div>
-        <!-- Preview avatar -->
-        <div class="avatar-preview-wrap">
-          <div class="avatar-preview-stage">
-            <div id="previewAvatar" class="av-body">
-              <div class="av-emoji" id="previewEmoji">😎</div>
+<!-- ═══════════════ LOGIN ═══════════════ -->
+<section id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">🔥</div>
+    <h1 class="login-title">Bearxbabe Live</h1>
+    <p class="login-sub">ห้องฟังเพลงร่วมกัน · เลือก Avatar แล้วเข้าห้องได้เลย</p>
+    <input id="nameInput" maxlength="20" placeholder="ชื่อของคุณ..." autocomplete="off" class="login-input" />
+    <div class="avatar-section">
+      <p class="section-label">เลือก Avatar</p>
+      <div class="emoji-tabs">
+        <button class="etab active" data-group="all">ทั้งหมด</button>
+        <button class="etab" data-group="face">หน้า</button>
+        <button class="etab" data-group="music">เพลง</button>
+        <button class="etab" data-group="animal">สัตว์</button>
+        <button class="etab" data-group="fire">เท่</button>
+      </div>
+      <div id="emojiGrid" class="emoji-grid"></div>
+      <div class="preview-wrap">
+        <div class="preview-avatar" id="previewAvatarWrap">
+          <div class="pv-body">
+            <span class="pv-head" id="previewEmoji">😎</span>
+            <div class="pv-torso"></div>
+            <div class="pv-arms">
+              <div class="pv-arm pv-arm-l"></div>
+              <div class="pv-arm pv-arm-r"></div>
             </div>
-            <div class="av-name" id="previewName">คุณ</div>
+            <div class="pv-legs">
+              <div class="pv-leg"></div>
+              <div class="pv-leg"></div>
+            </div>
           </div>
+          <div class="pv-name" id="previewName">คุณ</div>
         </div>
       </div>
-
-      <button id="joinBtn" class="btn-join">เข้าห้อง Live 🎵</button>
     </div>
-  </section>
+    <button id="joinBtn" class="btn-join">เข้าห้อง Live 🎵</button>
+  </div>
+</section>
 
-  <!-- =================== MAIN APP =================== -->
-  <div id="app" class="app hidden">
+<!-- ═══════════════ APP ═══════════════ -->
+<div id="app" class="app hidden">
 
-    <!-- TOP BAR -->
-    <header class="topbar">
-      <div class="topbar-left">
-        <span class="tb-logo">🔥</span>
-        <span class="tb-title">Bearxbabe Live</span>
-        <span id="hostBadge" class="tb-host"></span>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="tb-left">
+      <span class="tb-logo">🔥</span>
+      <span class="tb-title">Bearxbabe Live</span>
+    </div>
+    <div class="tb-center">
+      <div class="now-compact">
+        <span id="compactTitle" class="compact-title">ยังไม่มีเพลง</span>
+        <span id="compactBy" class="compact-by"></span>
       </div>
-      <div class="topbar-center">
-        <span id="statusDot" class="status-dot"></span>
-        <span id="statusText" class="status-text">กำลังเชื่อมต่อ...</span>
-      </div>
-      <div class="topbar-right">
+    </div>
+    <div class="tb-right">
+      <span id="statusDot" class="status-dot"></span>
+      <span id="statusText" class="status-text">เชื่อมต่อ...</span>
+      <div class="tb-me-wrap">
         <span id="meLabel" class="tb-me"></span>
+        <span id="myPoints" class="tb-points">0 XP</span>
       </div>
-    </header>
+    </div>
+  </header>
 
-    <!-- MAIN BODY: left | center | right -->
-    <div class="body-grid">
+  <!-- MAIN GRID -->
+  <div class="main-grid">
 
-      <!-- LEFT: Queue -->
-      <aside class="panel panel-left">
-        <div class="panel-hd">
-          <span>🎵 Up Next</span>
-          <span id="queueCount" class="badge">0</span>
-        </div>
+    <!-- LEFT: Queue + Waitlist -->
+    <aside class="panel panel-left">
+      <div class="panel-tabs">
+        <button class="ptab active" data-tab="queue">🎵 Up Next <span id="queueCount" class="badge">0</span></button>
+        <button class="ptab" data-tab="waitlist">📋 Waitlist <span id="waitlistCount" class="badge">0</span></button>
+      </div>
+
+      <!-- Queue tab -->
+      <div id="tabQueue" class="tab-content active">
         <div id="queueList" class="queue-list"></div>
-
-        <div class="add-song-box">
+        <div class="add-box">
           <input id="youtubeInput" placeholder="วาง YouTube URL..." autocomplete="off" />
           <button id="addSongBtn" class="btn-add">+</button>
         </div>
-      </aside>
-
-      <!-- CENTER: Stage -->
-      <section class="center-col">
-
-        <!-- VIDEO + META -->
-        <div class="stage-card">
-          <div class="player-wrap">
-            <div id="player"></div>
-            <div class="player-blocker"></div>
-            <div id="clickToStart" class="click-start hidden">
-              <button class="btn-unmute">▶ เปิดเสียง</button>
-              <span>Browser บล็อกเสียงอัตโนมัติ กดครั้งเดียว</span>
-            </div>
-          </div>
-
-          <!-- Progress -->
-          <div class="progress-row">
-            <span id="currentTimeText" class="time-txt">0:00</span>
-            <div class="progress-track">
-              <div id="progressBar" class="progress-fill"></div>
-              <div id="progressDot" class="progress-dot"></div>
-            </div>
-            <span id="durationText" class="time-txt">0:00</span>
-          </div>
-
-          <!-- Meta -->
-          <div class="song-meta">
-            <div class="song-thumb-wrap">
-              <img id="coverImage" class="song-thumb" src="" alt="" />
-              <div id="coverFallback" class="song-thumb-fallback">🎵</div>
-            </div>
-            <div class="song-info">
-              <div class="now-label">NOW PLAYING</div>
-              <div id="nowTitle" class="now-title">ยังไม่มีเพลง</div>
-              <div id="nowBy" class="now-by">วางลิงก์ YouTube เพื่อเพิ่มเพลงเข้าคิว</div>
-            </div>
-          </div>
-
-          <!-- Reactions -->
-          <div class="reaction-bar">
-            <button class="react-btn" data-reaction="like">
-              <span class="react-icon">👍</span>
-              <span id="likeCount" class="react-count">0</span>
-            </button>
-            <button class="react-btn" data-reaction="love">
-              <span class="react-icon">❤️</span>
-              <span id="loveCount" class="react-count">0</span>
-            </button>
-            <button class="react-btn" data-reaction="fire">
-              <span class="react-icon">🔥</span>
-              <span id="fireCount" class="react-count">0</span>
-            </button>
-            <button class="react-btn" data-reaction="wow">
-              <span class="react-icon">😮</span>
-              <span id="wowCount" class="react-count">0</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- AVATAR STAGE (Plug.dj style) -->
-        <div class="avatar-stage">
-          <div class="stage-floor"></div>
-          <div id="avatarRow" class="avatar-row"></div>
-          <div class="stage-label">🎤 Dance Floor</div>
-        </div>
-
-      </section>
-
-      <!-- RIGHT: Chat -->
-      <aside class="panel panel-right">
-        <div class="panel-hd">
-          <span>💬 Live Chat</span>
-          <span id="onlineCount" class="badge">0</span>
-        </div>
-        <div id="chatBox" class="chat-box"></div>
-        <div class="chat-input-row">
-          <input id="chatInput" placeholder="พิมพ์ข้อความ..." maxlength="300" autocomplete="off" />
-          <button id="sendChatBtn" class="btn-send">ส่ง</button>
-        </div>
-      </aside>
-
-    </div><!-- /body-grid -->
-  </div><!-- /app -->
-
-  <!-- MODAL -->
-  <div id="modalOverlay" class="modal-overlay hidden">
-    <div class="modal-box">
-      <div class="modal-hd">
-        <h3 id="modalTitle"></h3>
-        <button id="modalCloseBtn" class="modal-close">×</button>
       </div>
-      <div id="modalBody" class="modal-body"></div>
-    </div>
-  </div>
 
-  <script src="app.js"></script>
+      <!-- Waitlist tab -->
+      <div id="tabWaitlist" class="tab-content">
+        <div id="waitlistInfo" class="waitlist-info hidden"></div>
+        <div id="waitlistList" class="queue-list"></div>
+        <button id="joinWaitlistBtn" class="btn-join-waitlist">+ เข้าคิว DJ</button>
+      </div>
+    </aside>
+
+    <!-- CENTER -->
+    <section class="center-col">
+
+      <!-- VIDEO CARD -->
+      <div class="video-card">
+        <div class="player-wrap">
+          <div id="player"></div>
+          <div class="player-blocker"></div>
+          <div id="clickToStart" class="click-start hidden">
+            <button class="btn-unmute">▶ เปิดเสียง</button>
+            <span>กดครั้งเดียวเพื่อเปิดเสียง</span>
+          </div>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-row">
+          <span id="currentTimeText" class="t-txt">0:00</span>
+          <div class="prog-track">
+            <div id="progressBar" class="prog-fill"></div>
+            <div id="progressDot" class="prog-dot"></div>
+          </div>
+          <span id="durationText" class="t-txt">0:00</span>
+        </div>
+
+        <!-- Song info + reactions -->
+        <div class="song-row">
+          <img id="coverImage" class="song-cover" src="" alt="" />
+          <div id="coverFallback" class="song-cover-fb">🎵</div>
+          <div class="song-info">
+            <div class="now-label">NOW PLAYING</div>
+            <div id="nowTitle" class="now-title">ยังไม่มีเพลง</div>
+            <div id="nowBy" class="now-by">วาง YouTube URL เพื่อเพิ่มเพลง</div>
+          </div>
+          <div class="vote-box">
+            <button class="vote-btn woot" id="wootBtn" data-reaction="woot">
+              <span class="vote-icon">▲</span>
+              <span class="vote-label">Woot</span>
+              <span id="wootCount" class="vote-count">0</span>
+            </button>
+            <button class="vote-btn meh" id="mehBtn" data-reaction="meh">
+              <span class="vote-icon">–</span>
+              <span class="vote-label">Meh</span>
+              <span id="mehCount" class="vote-count">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Reactions -->
+        <div class="react-row">
+          <button class="react-btn" data-reaction="like">👍 <span id="likeCount">0</span></button>
+          <button class="react-btn" data-reaction="love">❤️ <span id="loveCount">0</span></button>
+          <button class="react-btn" data-reaction="fire">🔥 <span id="fireCount">0</span></button>
+          <button class="react-btn" data-reaction="wow">😮 <span id="wowCount">0</span></button>
+          <div class="react-spacer"></div>
+          <div class="host-badge-wrap">
+            <span id="hostBadge" class="host-badge"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- AVATAR STAGE -->
+      <div class="av-stage">
+        <div class="av-stage-bg"></div>
+        <!-- DJ Booth (center top) -->
+        <div class="dj-booth">
+          <div id="djSlot" class="dj-slot empty">
+            <div class="dj-label">🎧 DJ</div>
+            <div id="djAvatar" class="dj-avatar-wrap hidden">
+              <!-- filled by JS -->
+            </div>
+          </div>
+        </div>
+        <!-- Audience row -->
+        <div id="audienceRow" class="audience-row"></div>
+        <div class="stage-floor-line"></div>
+        <div class="stage-tag">🎤 Bearxbabe Live</div>
+      </div>
+
+    </section>
+
+    <!-- RIGHT: Chat -->
+    <aside class="panel panel-right">
+      <div class="panel-hd">
+        <span>💬 Live Chat</span>
+        <span id="onlineCount" class="badge">0</span>
+      </div>
+      <div id="chatBox" class="chat-box"></div>
+      <div class="chat-foot">
+        <input id="chatInput" placeholder="พิมพ์ข้อความ..." maxlength="300" autocomplete="off" />
+        <button id="sendChatBtn" class="btn-send">ส่ง</button>
+      </div>
+    </aside>
+
+  </div><!-- /main-grid -->
+</div><!-- /app -->
+
+<script src="app.js"></script>
 </body>
 </html>
