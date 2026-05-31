@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>🔥 Bearxbabe Live</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://www.youtube.com/iframe_api"></script>
 </head>
@@ -15,191 +15,191 @@
 <div id="toast" class="toast hidden"></div>
 <div id="floatLayer" class="float-layer"></div>
 
-<!-- ═══════════════ LOGIN ═══════════════ -->
+<!-- ═══ LOGIN ═══ -->
 <section id="loginScreen" class="login-screen">
   <div class="login-card">
     <div class="login-logo">🔥</div>
     <h1 class="login-title">Bearxbabe Live</h1>
     <p class="login-sub">ห้องฟังเพลงร่วมกัน · เลือก Avatar แล้วเข้าห้องได้เลย</p>
-    <input id="nameInput" maxlength="20" placeholder="ชื่อของคุณ..." autocomplete="off" class="login-input" />
-    <div class="avatar-section">
-      <p class="section-label">เลือก Avatar</p>
-      <div class="emoji-tabs">
-        <button class="etab active" data-group="all">ทั้งหมด</button>
-        <button class="etab" data-group="face">หน้า</button>
-        <button class="etab" data-group="music">เพลง</button>
-        <button class="etab" data-group="animal">สัตว์</button>
-        <button class="etab" data-group="fire">เท่</button>
+    <input id="nameInput" maxlength="20" placeholder="ชื่อของคุณ..." autocomplete="off" class="login-input"/>
+    <p class="section-label">เลือก Avatar</p>
+    <div class="emoji-tabs">
+      <button class="etab active" data-group="all">ทั้งหมด</button>
+      <button class="etab" data-group="face">หน้า</button>
+      <button class="etab" data-group="music">เพลง</button>
+      <button class="etab" data-group="animal">สัตว์</button>
+      <button class="etab" data-group="fire">เท่</button>
+    </div>
+    <div id="emojiGrid" class="emoji-grid"></div>
+    <div class="preview-wrap">
+      <div class="preview-avatar">
+        <div class="fig-head"><span id="previewEmoji">😎</span></div>
+        <div class="fig-body"></div>
+        <div class="fig-legs"><div></div><div></div></div>
       </div>
-      <div id="emojiGrid" class="emoji-grid"></div>
-      <div class="preview-wrap">
-        <div class="preview-avatar" id="previewAvatarWrap">
-          <div class="pv-body">
-            <span class="pv-head" id="previewEmoji">😎</span>
-            <div class="pv-torso"></div>
-            <div class="pv-arms">
-              <div class="pv-arm pv-arm-l"></div>
-              <div class="pv-arm pv-arm-r"></div>
-            </div>
-            <div class="pv-legs">
-              <div class="pv-leg"></div>
-              <div class="pv-leg"></div>
-            </div>
-          </div>
-          <div class="pv-name" id="previewName">คุณ</div>
-        </div>
-      </div>
+      <div class="preview-name" id="previewName">คุณ</div>
     </div>
     <button id="joinBtn" class="btn-join">เข้าห้อง Live 🎵</button>
   </div>
 </section>
 
-<!-- ═══════════════ APP ═══════════════ -->
+<!-- ═══ APP ═══ -->
 <div id="app" class="app hidden">
 
-  <!-- TOPBAR -->
-  <header class="topbar">
-    <div class="tb-left">
-      <span class="tb-logo">🔥</span>
-      <span class="tb-title">Bearxbabe Live</span>
+  <!-- TOP INFO BAR (like Plug.dj left panel) -->
+  <div class="top-bar">
+    <div class="tb-brand">
+      <span class="tb-fire">🔥</span>
+      <span class="tb-name">Bearxbabe Live</span>
     </div>
-    <div class="tb-center">
-      <div class="now-compact">
-        <span id="compactTitle" class="compact-title">ยังไม่มีเพลง</span>
-        <span id="compactBy" class="compact-by"></span>
+    <div class="tb-dj-info">
+      <div class="tb-row"><span class="tb-lbl">CURRENT DJ</span></div>
+      <div id="hostBadge" class="tb-dj-name">Host</div>
+      <div class="tb-row"><span class="tb-lbl">NOW PLAYING</span></div>
+      <div id="nowTitle" class="tb-song-title">ยังไม่มีเพลง</div>
+      <div id="nowBy" class="tb-song-by"></div>
+    </div>
+    <div class="tb-crowd">
+      <div class="crowd-stat">
+        <span class="crowd-icon">❤️</span>
+        <span id="wootCount" class="crowd-num">0</span>
+      </div>
+      <div class="crowd-stat">
+        <span class="crowd-icon">💔</span>
+        <span id="mehCount" class="crowd-num">0</span>
+      </div>
+      <div class="crowd-stat">
+        <span class="crowd-icon">⭐</span>
+        <span id="myPoints" class="crowd-num">0</span>
+        <span class="crowd-lbl">XP</span>
       </div>
     </div>
     <div class="tb-right">
       <span id="statusDot" class="status-dot"></span>
       <span id="statusText" class="status-text">เชื่อมต่อ...</span>
-      <div class="tb-me-wrap">
-        <span id="meLabel" class="tb-me"></span>
-        <span id="myPoints" class="tb-points">0 XP</span>
-      </div>
+      <span id="meLabel" class="tb-me"></span>
     </div>
-  </header>
+  </div>
 
-  <!-- MAIN GRID -->
-  <div class="main-grid">
+  <!-- MAIN: 3 columns -->
+  <div class="main-wrap">
 
-    <!-- LEFT: Queue + Waitlist -->
-    <aside class="panel panel-left">
+    <!-- LEFT PANEL -->
+    <aside class="left-panel">
       <div class="panel-tabs">
         <button class="ptab active" data-tab="queue">🎵 Up Next <span id="queueCount" class="badge">0</span></button>
         <button class="ptab" data-tab="waitlist">📋 Waitlist <span id="waitlistCount" class="badge">0</span></button>
       </div>
-
-      <!-- Queue tab -->
-      <div id="tabQueue" class="tab-content active">
+      <div id="tabQueue" class="tab-pane active">
         <div id="queueList" class="queue-list"></div>
         <div class="add-box">
-          <input id="youtubeInput" placeholder="วาง YouTube URL..." autocomplete="off" />
+          <input id="youtubeInput" placeholder="วาง YouTube URL..." autocomplete="off"/>
           <button id="addSongBtn" class="btn-add">+</button>
         </div>
       </div>
-
-      <!-- Waitlist tab -->
-      <div id="tabWaitlist" class="tab-content">
+      <div id="tabWaitlist" class="tab-pane">
         <div id="waitlistInfo" class="waitlist-info hidden"></div>
         <div id="waitlistList" class="queue-list"></div>
-        <button id="joinWaitlistBtn" class="btn-join-waitlist">+ เข้าคิว DJ</button>
+        <button id="joinWaitlistBtn" class="btn-join-wl">+ เข้าคิว DJ</button>
       </div>
     </aside>
 
-    <!-- CENTER -->
-    <section class="center-col">
+    <!-- CENTER: video top, stage bottom -->
+    <section class="center-wrap">
 
-      <!-- VIDEO CARD -->
-      <div class="video-card">
-        <div class="player-wrap">
-          <div id="player"></div>
-          <div class="player-blocker"></div>
-          <div id="clickToStart" class="click-start hidden">
-            <button class="btn-unmute">▶ เปิดเสียง</button>
-            <span>กดครั้งเดียวเพื่อเปิดเสียง</span>
+      <!-- VIDEO ROW -->
+      <div class="video-row">
+        <div class="player-card">
+          <div class="player-wrap">
+            <div id="player"></div>
+            <div class="player-blocker"></div>
+            <div id="clickToStart" class="click-start hidden">
+              <button class="btn-unmute">▶ เปิดเสียง</button>
+            </div>
+          </div>
+          <div class="progress-row">
+            <span id="currentTimeText" class="t-txt">0:00</span>
+            <div class="prog-track"><div id="progressBar" class="prog-fill"></div><div id="progressDot" class="prog-dot"></div></div>
+            <span id="durationText" class="t-txt">0:00</span>
           </div>
         </div>
 
-        <!-- Progress -->
-        <div class="progress-row">
-          <span id="currentTimeText" class="t-txt">0:00</span>
-          <div class="prog-track">
-            <div id="progressBar" class="prog-fill"></div>
-            <div id="progressDot" class="prog-dot"></div>
+        <!-- VOTE panel next to video -->
+        <div class="vote-panel">
+          <button class="vote-btn meh" id="mehBtn" data-reaction="meh">
+            <span class="vb-icon">💔</span>
+            <span class="vb-label">MEH</span>
+            <span id="mehCount2" class="vb-count">0</span>
+          </button>
+          <div class="dj-mini-info">
+            <div id="djMiniAvatar" class="dj-mini-av"></div>
+            <div id="djMiniName" class="dj-mini-name">DJ</div>
+            <div class="dj-mini-stats">
+              <span>⭐ <span id="djPoints">0</span></span>
+              <span>👥 <span id="onlineCount">0</span></span>
+            </div>
           </div>
-          <span id="durationText" class="t-txt">0:00</span>
-        </div>
-
-        <!-- Song info + reactions -->
-        <div class="song-row">
-          <img id="coverImage" class="song-cover" src="" alt="" />
-          <div id="coverFallback" class="song-cover-fb">🎵</div>
-          <div class="song-info">
-            <div class="now-label">NOW PLAYING</div>
-            <div id="nowTitle" class="now-title">ยังไม่มีเพลง</div>
-            <div id="nowBy" class="now-by">วาง YouTube URL เพื่อเพิ่มเพลง</div>
-          </div>
-          <div class="vote-box">
-            <button class="vote-btn woot" id="wootBtn" data-reaction="woot">
-              <span class="vote-icon">▲</span>
-              <span class="vote-label">Woot</span>
-              <span id="wootCount" class="vote-count">0</span>
-            </button>
-            <button class="vote-btn meh" id="mehBtn" data-reaction="meh">
-              <span class="vote-icon">–</span>
-              <span class="vote-label">Meh</span>
-              <span id="mehCount" class="vote-count">0</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Reactions -->
-        <div class="react-row">
-          <button class="react-btn" data-reaction="like">👍 <span id="likeCount">0</span></button>
-          <button class="react-btn" data-reaction="love">❤️ <span id="loveCount">0</span></button>
-          <button class="react-btn" data-reaction="fire">🔥 <span id="fireCount">0</span></button>
-          <button class="react-btn" data-reaction="wow">😮 <span id="wowCount">0</span></button>
-          <div class="react-spacer"></div>
-          <div class="host-badge-wrap">
-            <span id="hostBadge" class="host-badge"></span>
-          </div>
+          <button class="vote-btn woot" id="wootBtn" data-reaction="woot">
+            <span class="vb-icon">❤️</span>
+            <span class="vb-label">WOOT!</span>
+            <span id="wootCount2" class="vb-count">0</span>
+          </button>
         </div>
       </div>
 
-      <!-- AVATAR STAGE -->
-      <div class="av-stage">
-        <div class="av-stage-bg"></div>
-        <!-- DJ Booth (center top) -->
-        <div class="dj-booth">
-          <div id="djSlot" class="dj-slot empty">
-            <div class="dj-label">🎧 DJ</div>
-            <div id="djAvatar" class="dj-avatar-wrap hidden">
-              <!-- filled by JS -->
-            </div>
-          </div>
-        </div>
-        <!-- Audience row -->
+      <!-- REACT BAR -->
+      <div class="react-bar">
+        <button class="react-btn" data-reaction="like">👍 <span id="likeCount">0</span></button>
+        <button class="react-btn" data-reaction="love">❤️ <span id="loveCount">0</span></button>
+        <button class="react-btn" data-reaction="fire">🔥 <span id="fireCount">0</span></button>
+        <button class="react-btn" data-reaction="wow">😮 <span id="wowCount">0</span></button>
+        <div style="flex:1"></div>
+        <img id="coverImage" class="mini-cover" src="" alt=""/>
+      </div>
+
+      <!-- STAGE (full width, Plug.dj style) -->
+      <div class="stage">
+        <!-- Sky background -->
+        <div class="stage-sky"></div>
+        <!-- Stage floor -->
+        <div class="stage-floor"></div>
+        <!-- Spotlight -->
+        <div class="stage-spotlight"></div>
+
+        <!-- Audience (behind DJ) -->
         <div id="audienceRow" class="audience-row"></div>
-        <div class="stage-floor-line"></div>
+
+        <!-- DJ Booth center bottom -->
+        <div class="dj-booth">
+          <div class="booth-desk"></div>
+          <div id="djFigureWrap" class="dj-figure-wrap">
+            <!-- DJ figure injected by JS -->
+          </div>
+          <div id="djNameTag" class="dj-name-tag hidden"></div>
+        </div>
+
+        <!-- Woot/Meh big buttons at bottom -->
+        <div class="stage-vote-row">
+          <button class="stage-vote meh" id="stageMehBtn">💔 MEH</button>
+          <button class="stage-vote woot" id="stageWootBtn">❤️ WOOT!</button>
+        </div>
+
         <div class="stage-tag">🎤 Bearxbabe Live</div>
       </div>
 
     </section>
 
     <!-- RIGHT: Chat -->
-    <aside class="panel panel-right">
-      <div class="panel-hd">
-        <span>💬 Live Chat</span>
-        <span id="onlineCount" class="badge">0</span>
-      </div>
+    <aside class="right-panel">
+      <div class="panel-hd">💬 Chat <span id="chatDot" class="status-dot live" style="margin-left:6px"></span></div>
       <div id="chatBox" class="chat-box"></div>
       <div class="chat-foot">
-        <input id="chatInput" placeholder="พิมพ์ข้อความ..." maxlength="300" autocomplete="off" />
+        <input id="chatInput" placeholder="พิมพ์ข้อความ..." maxlength="300" autocomplete="off"/>
         <button id="sendChatBtn" class="btn-send">ส่ง</button>
       </div>
     </aside>
 
-  </div><!-- /main-grid -->
+  </div><!-- /main-wrap -->
 </div><!-- /app -->
 
 <script src="app.js"></script>
