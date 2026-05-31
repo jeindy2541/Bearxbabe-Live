@@ -22,23 +22,17 @@
     <h1 class="login-title">Bearxbabe Live</h1>
     <p class="login-sub">ห้องฟังเพลงร่วมกัน · เลือก Avatar แล้วเข้าห้องได้เลย</p>
     <input id="nameInput" maxlength="20" placeholder="ชื่อของคุณ..." autocomplete="off" class="login-input"/>
+
+    <!-- Avatar GIF picker -->
     <p class="section-label">เลือก Avatar</p>
-    <div class="emoji-tabs">
-      <button class="etab active" data-group="all">ทั้งหมด</button>
-      <button class="etab" data-group="face">หน้า</button>
-      <button class="etab" data-group="music">เพลง</button>
-      <button class="etab" data-group="animal">สัตว์</button>
-      <button class="etab" data-group="fire">เท่</button>
-    </div>
-    <div id="emojiGrid" class="emoji-grid"></div>
+    <div id="avatarPicker" class="avatar-picker"></div>
+
+    <!-- Preview -->
     <div class="preview-wrap">
-      <div class="preview-avatar">
-        <div class="fig-head"><span id="previewEmoji">😎</span></div>
-        <div class="fig-body"></div>
-        <div class="fig-legs"><div></div><div></div></div>
-      </div>
+      <img id="previewGif" class="preview-gif" src="" alt=""/>
       <div class="preview-name" id="previewName">คุณ</div>
     </div>
+
     <button id="joinBtn" class="btn-join">เข้าห้อง Live 🎵</button>
   </div>
 </section>
@@ -46,45 +40,45 @@
 <!-- ═══ APP ═══ -->
 <div id="app" class="app hidden">
 
-  <!-- TOP INFO BAR (like Plug.dj left panel) -->
+  <!-- TOP BAR -->
   <div class="top-bar">
     <div class="tb-brand">
       <span class="tb-fire">🔥</span>
       <span class="tb-name">Bearxbabe Live</span>
     </div>
-    <div class="tb-dj-info">
-      <div class="tb-row"><span class="tb-lbl">CURRENT DJ</span></div>
-      <div id="hostBadge" class="tb-dj-name">Host</div>
-      <div class="tb-row"><span class="tb-lbl">NOW PLAYING</span></div>
-      <div id="nowTitle" class="tb-song-title">ยังไม่มีเพลง</div>
-      <div id="nowBy" class="tb-song-by"></div>
+    <div class="tb-dj-section">
+      <div class="tb-dj-row">
+        <span class="tb-lbl">CURRENT DJ</span>
+        <span id="hostBadge" class="tb-dj-name">—</span>
+      </div>
+      <div class="tb-dj-row">
+        <span class="tb-lbl">NOW PLAYING</span>
+        <span id="nowTitle" class="tb-song-title">ยังไม่มีเพลง</span>
+      </div>
     </div>
     <div class="tb-crowd">
-      <div class="crowd-stat">
-        <span class="crowd-icon">❤️</span>
-        <span id="wootCount" class="crowd-num">0</span>
-      </div>
-      <div class="crowd-stat">
-        <span class="crowd-icon">💔</span>
-        <span id="mehCount" class="crowd-num">0</span>
-      </div>
-      <div class="crowd-stat">
-        <span class="crowd-icon">⭐</span>
-        <span id="myPoints" class="crowd-num">0</span>
-        <span class="crowd-lbl">XP</span>
-      </div>
+      <div class="crowd-stat woot-stat">❤️ <span id="wootTotal">0</span></div>
+      <div class="crowd-stat meh-stat">💔 <span id="mehTotal">0</span></div>
+      <div class="crowd-stat xp-stat">⭐ <span id="myXP">0</span> XP</div>
     </div>
     <div class="tb-right">
-      <span id="statusDot" class="status-dot"></span>
+      <div id="statusDot" class="status-dot"></div>
       <span id="statusText" class="status-text">เชื่อมต่อ...</span>
       <span id="meLabel" class="tb-me"></span>
+      <!-- BG picker button -->
+      <button id="bgPickerBtn" class="btn-bg-pick">🖼 Background</button>
     </div>
   </div>
 
-  <!-- MAIN: 3 columns -->
-  <div class="main-wrap">
+  <!-- BG PICKER DROPDOWN -->
+  <div id="bgPickerPanel" class="bg-picker-panel hidden">
+    <div id="bgPickerGrid" class="bg-picker-grid"></div>
+  </div>
 
-    <!-- LEFT PANEL -->
+  <!-- MAIN -->
+  <div class="main-grid">
+
+    <!-- LEFT -->
     <aside class="left-panel">
       <div class="panel-tabs">
         <button class="ptab active" data-tab="queue">🎵 Up Next <span id="queueCount" class="badge">0</span></button>
@@ -104,10 +98,10 @@
       </div>
     </aside>
 
-    <!-- CENTER: video top, stage bottom -->
+    <!-- CENTER -->
     <section class="center-wrap">
 
-      <!-- VIDEO ROW -->
+      <!-- VIDEO + VOTE -->
       <div class="video-row">
         <div class="player-card">
           <div class="player-wrap">
@@ -122,27 +116,31 @@
             <div class="prog-track"><div id="progressBar" class="prog-fill"></div><div id="progressDot" class="prog-dot"></div></div>
             <span id="durationText" class="t-txt">0:00</span>
           </div>
-        </div>
-
-        <!-- VOTE panel next to video -->
-        <div class="vote-panel">
-          <button class="vote-btn meh" id="mehBtn" data-reaction="meh">
-            <span class="vb-icon">💔</span>
-            <span class="vb-label">MEH</span>
-            <span id="mehCount2" class="vb-count">0</span>
-          </button>
-          <div class="dj-mini-info">
-            <div id="djMiniAvatar" class="dj-mini-av"></div>
-            <div id="djMiniName" class="dj-mini-name">DJ</div>
-            <div class="dj-mini-stats">
-              <span>⭐ <span id="djPoints">0</span></span>
-              <span>👥 <span id="onlineCount">0</span></span>
+          <!-- Song meta -->
+          <div class="song-meta-row">
+            <img id="coverImage" class="song-thumb" src="" alt="" style="display:none"/>
+            <div>
+              <div id="nowBy" class="now-by"></div>
             </div>
           </div>
-          <button class="vote-btn woot" id="wootBtn" data-reaction="woot">
+        </div>
+
+        <!-- VOTE -->
+        <div class="vote-panel">
+          <button class="vote-btn meh" id="mehBtn">
+            <span class="vb-icon">💔</span>
+            <span class="vb-lbl">MEH</span>
+            <span id="mehCount" class="vb-num">0</span>
+          </button>
+          <div class="dj-card">
+            <img id="djAvatarImg" class="dj-av-img" src="" alt=""/>
+            <div id="djCardName" class="dj-card-name">DJ</div>
+            <div class="dj-card-stats"><span>👥 <span id="onlineCount">0</span></span></div>
+          </div>
+          <button class="vote-btn woot" id="wootBtn">
             <span class="vb-icon">❤️</span>
-            <span class="vb-label">WOOT!</span>
-            <span id="wootCount2" class="vb-count">0</span>
+            <span class="vb-lbl">WOOT!</span>
+            <span id="wootCount" class="vb-num">0</span>
           </button>
         </div>
       </div>
@@ -153,45 +151,43 @@
         <button class="react-btn" data-reaction="love">❤️ <span id="loveCount">0</span></button>
         <button class="react-btn" data-reaction="fire">🔥 <span id="fireCount">0</span></button>
         <button class="react-btn" data-reaction="wow">😮 <span id="wowCount">0</span></button>
-        <div style="flex:1"></div>
-        <img id="coverImage" class="mini-cover" src="" alt=""/>
       </div>
 
-      <!-- STAGE (full width, Plug.dj style) -->
-      <div class="stage">
-        <!-- Sky background -->
-        <div class="stage-sky"></div>
-        <!-- Stage floor -->
-        <div class="stage-floor"></div>
-        <!-- Spotlight -->
-        <div class="stage-spotlight"></div>
+      <!-- ════ STAGE ════ -->
+      <div class="stage" id="stage">
+        <!-- Background image (real Plug.dj art) -->
+        <img id="stageBg" class="stage-bg" src="https://images.squarespace-cdn.com/content/v1/5fd127257a630c218ebea814/1607816226351-HSB4RP1GWD3F4HM4SBEC/Background_Classic.jpg" alt=""/>
+        <!-- Dark overlay so UI stays readable -->
+        <div class="stage-overlay"></div>
 
-        <!-- Audience (behind DJ) -->
-        <div id="audienceRow" class="audience-row"></div>
+        <!-- Audience avatars (GIF sprites, arranged in crowd) -->
+        <div id="audienceWrap" class="audience-wrap">
+          <!-- filled by JS -->
+        </div>
 
-        <!-- DJ Booth center bottom -->
-        <div class="dj-booth">
-          <div class="booth-desk"></div>
-          <div id="djFigureWrap" class="dj-figure-wrap">
-            <!-- DJ figure injected by JS -->
+        <!-- DJ BOOTH -->
+        <div class="dj-booth-wrap">
+          <div class="booth-table"></div>
+          <div id="djBoothAvatar" class="dj-booth-avatar">
+            <!-- DJ gif injected here -->
           </div>
-          <div id="djNameTag" class="dj-name-tag hidden"></div>
+          <div id="djBoothLabel" class="dj-booth-label hidden"></div>
         </div>
 
-        <!-- Woot/Meh big buttons at bottom -->
-        <div class="stage-vote-row">
-          <button class="stage-vote meh" id="stageMehBtn">💔 MEH</button>
-          <button class="stage-vote woot" id="stageWootBtn">❤️ WOOT!</button>
+        <!-- WOOT / MEH big stage buttons -->
+        <div class="stage-vote-bar">
+          <button class="stage-vote-btn sv-meh" id="svMeh">💔 MEH</button>
+          <button class="stage-vote-btn sv-woot" id="svWoot">❤️ WOOT!</button>
         </div>
 
-        <div class="stage-tag">🎤 Bearxbabe Live</div>
+        <div class="stage-credit">🎨 Art by Michael Derry / plug.dj</div>
       </div>
 
     </section>
 
     <!-- RIGHT: Chat -->
     <aside class="right-panel">
-      <div class="panel-hd">💬 Chat <span id="chatDot" class="status-dot live" style="margin-left:6px"></span></div>
+      <div class="panel-hd">💬 Live Chat <div id="chatStatusDot" class="status-dot live" style="margin-left:6px"></div></div>
       <div id="chatBox" class="chat-box"></div>
       <div class="chat-foot">
         <input id="chatInput" placeholder="พิมพ์ข้อความ..." maxlength="300" autocomplete="off"/>
@@ -199,8 +195,8 @@
       </div>
     </aside>
 
-  </div><!-- /main-wrap -->
-</div><!-- /app -->
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>
