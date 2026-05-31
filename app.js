@@ -60,7 +60,8 @@ const EL = {
   djFigureWrap:$("djFigureWrap"), djNameTag:$("djNameTag"),
   djMiniAvatar:$("djMiniAvatar"), djMiniName:$("djMiniName"),
   audienceRow:$("audienceRow"),
-  onlineCount:$("onlineCount"),
+  onlineCount:$("onlineCount"), djPoints:$("djPoints"),
+  youtubeInput:$("youtubeInput"), addSongBtn:$("addSongBtn"),
   queueList:$("queueList"), queueCount:$("queueCount"),
   waitlistList:$("waitlistList"), waitlistCount:$("waitlistCount"),
   waitlistInfo:$("waitlistInfo"), joinWaitlistBtn:$("joinWaitlistBtn"),
@@ -441,22 +442,56 @@ function sysMsg(text, type="sys") {
 
 /* ══ QUEUE ══ */
 async function addSong() {
-  const input = EL.youtubeInput.value.trim();
+  if (!me) { showToast("กรุณาเข้าห้องก่อน", "error"); return; }
+  const input = EL.youtubeInput?.value.trim() || "";
   const vid   = extractYouTubeId(input);
-  if (!vid) { showToast("ลิงก์ YouTube ไม่ถูกต้อง"); return; }
-  const { data:ex } = await db.from("queue").select("id").eq("video_id",vid).eq("played",false).limit(1).maybeSingle();
-  if (ex) { showToast("เพลงนี้อยู่ในคิวแล้ว","error"); return; }
-  const { count } = await db.from("queue").select("*",{count:"exact",head:true}).eq("member_name",me.name).eq("played",false);
-  if ((count||0)>=MAX_SONGS_PER_USER) { showToast(`จำกัดคนละ ${MAX_SONGS_PER_USER} เพลง`,"error"); return; }
-  EL.addSongBtn.disabled=true; EL.addSongBtn.textContent="…";
-  const meta = await getYouTubeMeta(vid);
-  const { error } = await db.from("queue").insert({ member_name:me.name, member_emoji:me.emoji, youtube_url:`https://www.youtube.com/watch?v=${vid}`, video_id:vid, title:meta.title, played:false });
-  EL.addSongBtn.disabled=false; EL.addSongBtn.textContent="+";
-  if (error) { showToast("เพิ่มเพลงไม่สำเร็จ"); return; }
-  EL.youtubeInput.value = "";
-  showToast(`เพิ่ม "${meta.title.slice(0,28)}..." ✅`,"success");
-  await loadQueue();
-  await hostOnlyAutoStart();
+  if (!vid) { showToast("ลิงก์ YouTube ไม่ถูกต้อง", "error"); return; }
+
+  EL.addSongBtn.disabled = true;
+  EL.addSongBtn.textContent = "…";
+
+  try {
+    const { data:ex, error:exErr } = await db.from("queue")
+      .select("id")
+      .eq("video_id",vid)
+      .eq("played",false)
+      .limit(1)
+      .maybeSingle();
+    if (exErr) throw exErr;
+    if (ex) { showToast("เพลงนี้อยู่ในคิวแล้ว", "error"); return; }
+
+    const { count, error:countErr } = await db.from("queue")
+      .select("*", { count:"exact", head:true })
+      .eq("member_name", me.name)
+      .eq("played", false);
+    if (countErr) throw countErr;
+    if ((count || 0) >= MAX_SONGS_PER_USER) {
+      showToast(`จำกัดคนละ ${MAX_SONGS_PER_USER} เพลง`, "error");
+      return;
+    }
+
+    const meta = await getYouTubeMeta(vid);
+    const { error } = await db.from("queue").insert({
+      member_name: me.name,
+      member_emoji: me.emoji,
+      youtube_url: `https://www.youtube.com/watch?v=${vid}`,
+      video_id: vid,
+      title: meta.title,
+      played: false
+    });
+    if (error) throw error;
+
+    EL.youtubeInput.value = "";
+    showToast(`เพิ่ม "${meta.title.slice(0,28)}..." ✅`, "success");
+    await loadQueue();
+    await hostOnlyAutoStart();
+  } catch (err) {
+    console.error("addSong error:", err);
+    showToast(`เพิ่มเพลงไม่สำเร็จ: ${err.message || "เช็ค Supabase"}`, "error");
+  } finally {
+    EL.addSongBtn.disabled = false;
+    EL.addSongBtn.textContent = "+";
+  }
 }
 async function loadQueue() {
   const { data } = await db.from("queue").select("*").eq("played",false).order("created_at",{ascending:true});
