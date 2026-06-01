@@ -20,83 +20,56 @@
     <div class="login-fire">🔥</div>
     <h1 class="login-title">PIXEL HQ</h1>
     <p class="login-sub">[ BEARXBABE LIVE · ห้องเปิดเพลงร่วมกัน ]</p>
-
     <div class="login-grid">
       <div class="login-form">
         <label class="px-label">▶ ชื่อของคุณ</label>
         <input id="nameInput" maxlength="14" placeholder="ใส่ชื่อ..." autocomplete="off" class="px-input"/>
-
-        <label class="px-label">▶ สีผิว</label>
-        <div id="skinRow" class="opt-row"></div>
-
-        <label class="px-label">▶ ทรงผม</label>
-        <div id="hairStyleRow" class="chip-row"></div>
-
-        <label class="px-label">▶ สีผม</label>
-        <div id="hairColorRow" class="opt-row"></div>
-
-        <label class="px-label">▶ เสื้อ</label>
-        <div id="outfitRow" class="opt-row"></div>
-
-        <label class="px-label">▶ กางเกง</label>
-        <div id="pantsRow" class="opt-row"></div>
-
-        <label class="px-label">▶ หมวก / ของประดับ</label>
-        <div id="hatRow" class="chip-row"></div>
+        <label class="px-label">▶ สีผิว</label><div id="skinRow" class="opt-row"></div>
+        <label class="px-label">▶ ทรงผม</label><div id="hairStyleRow" class="chip-row"></div>
+        <label class="px-label">▶ สีผม</label><div id="hairColorRow" class="opt-row"></div>
+        <label class="px-label">▶ เสื้อ</label><div id="outfitRow" class="opt-row"></div>
+        <label class="px-label">▶ กางเกง</label><div id="pantsRow" class="opt-row"></div>
+        <label class="px-label">▶ หมวก / ของประดับ</label><div id="hatRow" class="chip-row"></div>
       </div>
-
       <div class="login-preview">
         <label class="px-label">PREVIEW</label>
-        <div class="preview-stage">
-          <canvas id="previewCanvas" class="preview-canvas"></canvas>
-        </div>
+        <div class="preview-stage"><canvas id="previewCanvas" class="preview-canvas"></canvas></div>
         <div class="prev-name" id="previewName">PLAYER</div>
         <button id="randomBtn" class="px-btn-mini">🎲 สุ่มชุด</button>
       </div>
     </div>
-
     <button id="joinBtn" class="px-btn-primary">[ เข้าห้องเพลง ]</button>
   </div>
 </section>
 
 <!-- ═══════ APP ═══════ -->
 <div id="app" class="app hidden">
-
-  <!-- TOPBAR -->
   <header class="topbar">
     <div class="tb-brand"><span>🔥</span><span class="tb-title">PIXEL HQ</span></div>
-    <div class="tb-now">
-      <span class="tb-lbl">NOW</span>
-      <span id="nowTitle" class="tb-song">-- ยังไม่มีเพลง --</span>
-      <span id="nowBy" class="tb-by"></span>
-    </div>
+    <div class="tb-now"><span class="tb-lbl">NOW</span><span id="nowTitle" class="tb-song">-- ยังไม่มีเพลง --</span><span id="nowBy" class="tb-by"></span></div>
     <div class="tb-right">
-      <span id="statusDot" class="status-dot"></span>
-      <span id="statusText" class="tb-status">เชื่อมต่อ...</span>
-      <span id="myLevel" class="tb-lv">Lv.1</span>
-      <span id="meLabel" class="tb-me"></span>
-      <span id="myXP" class="tb-xp">0 XP</span>
+      <span id="statusDot" class="status-dot"></span><span id="statusText" class="tb-status">เชื่อมต่อ...</span>
+      <span id="myLevel" class="tb-lv">Lv.1</span><span id="meLabel" class="tb-me"></span><span id="myXP" class="tb-xp">0 XP</span>
       <button id="editLookBtn" class="px-btn-mini" title="แต่งตัว">👕</button>
     </div>
   </header>
 
   <div class="main-grid">
-
     <!-- LEFT -->
     <aside class="left-panel">
       <div class="panel-tabs">
         <button class="ptab active" data-tab="queue">♪ คิว <span id="queueCount" class="px-badge">0</span></button>
+        <button class="ptab" data-tab="recent">🕐 ล่าสุด</button>
         <button class="ptab" data-tab="board">🏆 อันดับ</button>
       </div>
-
       <div id="tabQueue" class="tab-pane active">
         <div id="queueList" class="scroll-list"></div>
-        <div class="add-row">
-          <input id="youtubeInput" placeholder="วาง YouTube URL..." autocomplete="off" class="px-input-sm"/>
-          <button id="addSongBtn" class="px-btn-add">+</button>
-        </div>
+        <div class="add-row"><input id="youtubeInput" placeholder="วาง YouTube URL..." autocomplete="off" class="px-input-sm"/><button id="addSongBtn" class="px-btn-add">+</button></div>
       </div>
-
+      <div id="tabRecent" class="tab-pane">
+        <div class="board-head">🕐 เพลงที่เพิ่งเล่น</div>
+        <div id="recentList" class="scroll-list"></div>
+      </div>
       <div id="tabBoard" class="tab-pane">
         <div class="board-head">🏆 TOP DJ (woots ❤️)</div>
         <div id="boardList" class="scroll-list"></div>
@@ -105,46 +78,38 @@
 
     <!-- CENTER -->
     <section class="center-col">
-
       <div class="video-section">
         <div class="player-card">
           <div class="player-box">
-            <div id="player"></div>
-            <div class="player-blocker"></div>
+            <div id="player"></div><div class="player-blocker"></div>
             <div id="clickToStart" class="click-start hidden">
               <button class="px-btn-primary" style="font-size:9px;padding:11px 22px">▶ เปิดเสียง</button>
               <p style="color:#888;font-size:11px;margin-top:8px">Browser บล็อกเสียง กดครั้งเดียว</p>
             </div>
           </div>
-          <div class="prog-row">
-            <span id="currentTimeText" class="prog-time">0:00</span>
-            <div class="prog-track"><div id="progressBar" class="prog-fill"></div><div id="progressDot" class="prog-dot"></div></div>
-            <span id="durationText" class="prog-time">0:00</span>
-          </div>
-          <div class="song-info-row">
-            <img id="coverImage" class="song-cover" src="" alt="" style="display:none"/>
-            <span id="hostBadge" class="host-badge"></span>
-            <span id="songWoots" class="song-woots"></span>
-          </div>
+          <div class="prog-row"><span id="currentTimeText" class="prog-time">0:00</span><div class="prog-track"><div id="progressBar" class="prog-fill"></div><div id="progressDot" class="prog-dot"></div></div><span id="durationText" class="prog-time">0:00</span></div>
+          <div class="song-info-row"><img id="coverImage" class="song-cover" src="" alt="" style="display:none"/><span id="hostBadge" class="host-badge"></span><span id="songWoots" class="song-woots"></span></div>
         </div>
-
         <div class="vote-col">
-          <button id="mehBtn" class="vote-btn vote-meh">
-            <div class="vote-icon">💔</div><div class="vote-lbl">MEH</div><div id="mehCount" class="vote-num">0</div>
-          </button>
+          <button id="mehBtn" class="vote-btn vote-meh"><div class="vote-icon">💔</div><div class="vote-lbl">MEH</div><div id="mehCount" class="vote-num">0</div></button>
           <div class="meh-bar-wrap"><div id="mehBar" class="meh-bar"></div></div>
           <div class="meh-warn">ข้าม &gt;80%</div>
-          <button id="wootBtn" class="vote-btn vote-woot">
-            <div class="vote-icon">❤️</div><div class="vote-lbl">WOOT!</div><div id="wootCount" class="vote-num">0</div>
-          </button>
+          <button id="wootBtn" class="vote-btn vote-woot"><div class="vote-icon">❤️</div><div class="vote-lbl">WOOT!</div><div id="wootCount" class="vote-num">0</div></button>
         </div>
       </div>
 
+      <!-- REACT + EMOTE + GIFT BAR -->
       <div class="react-bar">
         <button class="react-btn" data-reaction="like">👍 <span id="likeCount">0</span></button>
         <button class="react-btn" data-reaction="love">❤️ <span id="loveCount">0</span></button>
         <button class="react-btn" data-reaction="fire">🔥 <span id="fireCount">0</span></button>
         <button class="react-btn" data-reaction="wow">😮 <span id="wowCount">0</span></button>
+        <div class="bar-sep"></div>
+        <span class="bar-lbl">EMOTE</span>
+        <div id="emoteBar" class="emote-bar"></div>
+        <div class="bar-sep"></div>
+        <span class="bar-lbl">ส่งให้ DJ</span>
+        <div id="giftBar" class="gift-bar"></div>
         <div style="flex:1"></div>
         <div class="vote-totals">👥<span id="onlineCount">0</span></div>
       </div>
@@ -152,30 +117,22 @@
       <!-- STAGE -->
       <div class="stage" id="stage">
         <div class="stage-bg">
-          <div class="stage-sky" id="skyLayer"></div>
-          <div class="stage-city"></div>
+          <div class="stage-sky" id="skyLayer">
+            <div class="sky-sun" id="skySun"></div>
+            <div class="sky-moon" id="skyMoon"></div>
+            <div class="sky-clouds" id="skyClouds"></div>
+          </div>
+          <div class="stage-city" id="stageCity"></div>
           <div class="stage-floor-bg"></div>
           <div class="stage-glow"></div>
         </div>
-
-        <!-- Disco ball -->
-        <div class="disco-ball" id="discoBall">
-          <div class="disco-string"></div>
-          <div class="disco-orb"></div>
-        </div>
-        <!-- Spotlights -->
+        <div class="disco-ball" id="discoBall"><div class="disco-string"></div><div class="disco-orb"></div></div>
         <div class="spotlight spotlight-l" id="spotlightL"></div>
         <div class="spotlight spotlight-r" id="spotlightR"></div>
-
-        <!-- Equalizer bars -->
         <div class="equalizer eq-l" id="equalizerL"></div>
         <div class="equalizer eq-r" id="equalizerR"></div>
-
-        <!-- Speakers -->
         <div class="speaker speaker-l" id="speakerL"><div class="spk-cone spk-cone-top"></div><div class="spk-cone spk-cone-bot"></div></div>
         <div class="speaker speaker-r" id="speakerR"><div class="spk-cone spk-cone-top"></div><div class="spk-cone spk-cone-bot"></div></div>
-
-        <!-- DJ Booth -->
         <div class="dj-booth">
           <div id="djBoothFigure" class="dj-booth-fig"></div>
           <div class="booth-desk">
@@ -185,14 +142,10 @@
           </div>
           <div id="djBoothName" class="dj-booth-name hidden"></div>
         </div>
-
-        <!-- Walkable floor -->
         <div id="agentFloor" class="agent-floor"></div>
-
         <div class="stage-hint">คลิกบนพื้นเพื่อเดิน 🚶</div>
-        <div class="stage-tag">PIXEL HQ</div>
+        <div class="stage-tag" id="stageTag">PIXEL HQ</div>
       </div>
-
     </section>
 
     <!-- RIGHT: Chat -->
@@ -206,7 +159,6 @@
         <button id="sendChatBtn" class="px-btn-send">ส่ง</button>
       </div>
     </aside>
-
   </div>
 </div>
 
