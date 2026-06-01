@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-  <title>🔥 Bearxbabe Live</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>🔥 PixelHQ — Bearxbabe Live</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,178 +12,225 @@
 <body>
 
 <div id="toast" class="toast hidden"></div>
-<div id="floatLayer" class="float-layer"></div>
-<!-- Pixel sparkles canvas -->
-<canvas id="sparkleCanvas" class="sparkle-canvas"></canvas>
+<div id="fxLayer" class="fx-layer"></div>
 
-<!-- ═══════════ LOGIN ═══════════ -->
+<!-- ═══════ LOGIN ═══════ -->
 <section id="loginScreen" class="login-screen">
-  <div class="login-card px-card">
-    <div class="px-logo">
-      <canvas id="logoCanvas" width="80" height="80"></canvas>
+  <div class="login-card">
+    <div class="login-fire">🔥</div>
+    <h1 class="login-title">PIXEL HQ</h1>
+    <p class="login-sub">[ BEARXBABE LIVE · ห้องเปิดเพลงร่วมกัน ]</p>
+
+    <div class="login-grid">
+      <div class="login-form">
+        <label class="px-label">▶ ชื่อของคุณ</label>
+        <input id="nameInput" maxlength="14" placeholder="ใส่ชื่อ..." autocomplete="off" class="px-input"/>
+
+        <label class="px-label">▶ สีผิว</label>
+        <div id="skinRow" class="opt-row"></div>
+
+        <label class="px-label">▶ ทรงผม</label>
+        <div id="hairStyleRow" class="chip-row"></div>
+
+        <label class="px-label">▶ สีผม</label>
+        <div id="hairColorRow" class="opt-row"></div>
+
+        <label class="px-label">▶ เสื้อ</label>
+        <div id="outfitRow" class="opt-row"></div>
+
+        <label class="px-label">▶ กางเกง</label>
+        <div id="pantsRow" class="opt-row"></div>
+
+        <label class="px-label">▶ หมวก / ของประดับ</label>
+        <div id="hatRow" class="chip-row"></div>
+      </div>
+
+      <div class="login-preview">
+        <label class="px-label">PREVIEW</label>
+        <div class="preview-stage">
+          <canvas id="previewCanvas" class="preview-canvas"></canvas>
+        </div>
+        <div class="prev-name" id="previewName">PLAYER</div>
+        <button id="randomBtn" class="px-btn-mini">🎲 สุ่มชุด</button>
+      </div>
     </div>
-    <h1 class="px-title">BEARXBABE<br>LIVE</h1>
-    <p class="px-sub">[ ห้องฟังเพลงร่วมกัน ]</p>
 
-    <div class="px-field-label">▶ ชื่อผู้เล่น</div>
-    <input id="nameInput" maxlength="20" placeholder="ENTER NAME..." autocomplete="off" class="px-input"/>
-
-    <div class="px-field-label">▶ เลือก AVATAR</div>
-    <div class="px-avatar-tabs">
-      <button class="pxtab active" data-group="animals">🐾 Animals</button>
-      <button class="pxtab" data-group="robots">🤖 Robots</button>
-      <button class="pxtab" data-group="humans">🧑 Humans</button>
-      <button class="pxtab" data-group="special">✨ Special</button>
-    </div>
-    <div id="avatarGrid" class="px-avatar-grid"></div>
-
-    <div class="px-preview-wrap">
-      <canvas id="previewCanvas" width="64" height="80" class="px-preview-canvas"></canvas>
-      <div id="previewName" class="px-preview-name">PLAYER</div>
-    </div>
-
-    <button id="joinBtn" class="px-btn px-btn-primary">[ START GAME ]</button>
+    <button id="joinBtn" class="px-btn-primary">[ เข้าห้องเพลง ]</button>
   </div>
 </section>
 
-<!-- ═══════════ APP ═══════════ -->
+<!-- ═══════ APP ═══════ -->
 <div id="app" class="app hidden">
 
-  <!-- PIXEL TOPBAR -->
-  <div class="px-topbar">
-    <div class="px-tb-left">
-      <span class="px-tb-logo">🔥</span>
-      <span class="px-tb-title">BEARXBABE LIVE</span>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="tb-brand"><span>🔥</span><span class="tb-title">PIXEL HQ</span></div>
+    <div class="tb-now">
+      <span class="tb-lbl">NOW</span>
+      <span id="nowTitle" class="tb-song">-- ยังไม่มีเพลง --</span>
+      <span id="nowBy" class="tb-by"></span>
     </div>
-    <div class="px-tb-center">
-      <span id="nowTitle" class="px-now-title">-- NO SONG --</span>
-      <span id="nowBy" class="px-now-by"></span>
+    <div class="tb-right">
+      <span id="statusDot" class="status-dot"></span>
+      <span id="statusText" class="tb-status">เชื่อมต่อ...</span>
+      <span id="myLevel" class="tb-lv">Lv.1</span>
+      <span id="meLabel" class="tb-me"></span>
+      <span id="myXP" class="tb-xp">0 XP</span>
+      <button id="editLookBtn" class="px-btn-mini" title="แต่งตัว">👕</button>
     </div>
-    <div class="px-tb-right">
-      <div id="statusDot" class="px-status-dot"></div>
-      <span id="statusText" class="px-status-text">CONNECTING</span>
-      <span id="meLabel" class="px-me-label"></span>
-      <span id="myXP" class="px-xp">0 XP</span>
-    </div>
-  </div>
+  </header>
 
-  <!-- MAIN GRID -->
-  <div class="px-main">
+  <div class="main-grid">
 
-    <!-- LEFT: Queue + Waitlist -->
-    <aside class="px-panel px-left">
-      <div class="px-panel-tabs">
-        <button class="pxtab2 active" data-tab="queue">♪ QUEUE <span id="queueCount" class="px-badge">0</span></button>
-        <button class="pxtab2" data-tab="waitlist">DJ LIST <span id="waitlistCount" class="px-badge">0</span></button>
+    <!-- LEFT -->
+    <aside class="left-panel">
+      <div class="panel-tabs">
+        <button class="ptab active" data-tab="queue">♪ คิว <span id="queueCount" class="px-badge">0</span></button>
+        <button class="ptab" data-tab="board">🏆 อันดับ</button>
       </div>
-      <div id="tabQueue" class="px-tab-content active">
-        <div id="queueList" class="px-queue-list"></div>
-        <div class="px-add-row">
-          <input id="youtubeInput" placeholder="PASTE YOUTUBE URL..." autocomplete="off" class="px-input-sm"/>
-          <button id="addSongBtn" class="px-btn px-btn-add">+</button>
+
+      <div id="tabQueue" class="tab-pane active">
+        <div id="queueList" class="scroll-list"></div>
+        <div class="add-row">
+          <input id="youtubeInput" placeholder="วาง YouTube URL..." autocomplete="off" class="px-input-sm"/>
+          <button id="addSongBtn" class="px-btn-add">+</button>
         </div>
       </div>
-      <div id="tabWaitlist" class="px-tab-content">
-        <div id="waitlistInfo" class="px-waitlist-info hidden"></div>
-        <div id="waitlistList" class="px-queue-list"></div>
-        <button id="joinWaitlistBtn" class="px-btn px-btn-wl">+ JOIN DJ QUEUE</button>
+
+      <div id="tabBoard" class="tab-pane">
+        <div class="board-head">🏆 TOP DJ (woots ❤️)</div>
+        <div id="boardList" class="scroll-list"></div>
       </div>
     </aside>
 
     <!-- CENTER -->
-    <section class="px-center">
+    <section class="center-col">
 
-      <!-- VIDEO + VOTE -->
-      <div class="px-video-row">
-        <div class="px-player-wrap">
-          <div class="px-player-inner">
+      <div class="video-section">
+        <div class="player-card">
+          <div class="player-box">
             <div id="player"></div>
             <div class="player-blocker"></div>
-            <div id="clickToStart" class="px-click-start hidden">
-              <button class="px-btn px-btn-primary">▶ PLAY</button>
+            <div id="clickToStart" class="click-start hidden">
+              <button class="px-btn-primary" style="font-size:9px;padding:11px 22px">▶ เปิดเสียง</button>
+              <p style="color:#888;font-size:11px;margin-top:8px">Browser บล็อกเสียง กดครั้งเดียว</p>
             </div>
           </div>
-          <div class="px-progress-row">
-            <span id="currentTimeText" class="px-time">0:00</span>
-            <div class="px-prog-track">
-              <div id="progressBar" class="px-prog-fill"></div>
-              <div id="progressDot" class="px-prog-dot"></div>
-            </div>
-            <span id="durationText" class="px-time">0:00</span>
+          <div class="prog-row">
+            <span id="currentTimeText" class="prog-time">0:00</span>
+            <div class="prog-track"><div id="progressBar" class="prog-fill"></div><div id="progressDot" class="prog-dot"></div></div>
+            <span id="durationText" class="prog-time">0:00</span>
           </div>
-          <div class="px-song-info-row">
-            <img id="coverImage" class="px-cover" src="" alt="" style="display:none"/>
-            <div id="hostBadge" class="px-host-badge">DJ: —</div>
+          <div class="song-info-row">
+            <img id="coverImage" class="song-cover" src="" alt="" style="display:none"/>
+            <span id="hostBadge" class="host-badge"></span>
+            <span id="songWoots" class="song-woots"></span>
           </div>
         </div>
 
-        <!-- VOTE PANEL -->
-        <div class="px-vote-panel">
-          <button class="px-vote-btn px-meh" id="mehBtn">
-            <span class="pv-icon">💔</span>
-            <span class="pv-label">MEH</span>
-            <span id="mehCount" class="pv-count">0</span>
+        <div class="vote-col">
+          <button id="mehBtn" class="vote-btn vote-meh">
+            <div class="vote-icon">💔</div><div class="vote-lbl">MEH</div><div id="mehCount" class="vote-num">0</div>
           </button>
-          <div class="px-dj-box">
-            <canvas id="djCanvas" width="48" height="60" class="px-dj-canvas"></canvas>
-            <div id="djBoxName" class="px-dj-box-name">--</div>
-            <div class="px-dj-box-stats">
-              <span>👥<span id="onlineCount">0</span></span>
-              <span>⭐<span id="djXP">0</span></span>
-            </div>
-          </div>
-          <button class="px-vote-btn px-woot" id="wootBtn">
-            <span class="pv-icon">❤️</span>
-            <span class="pv-label">WOOT!</span>
-            <span id="wootCount" class="pv-count">0</span>
+          <div class="meh-bar-wrap"><div id="mehBar" class="meh-bar"></div></div>
+          <div class="meh-warn">ข้าม &gt;80%</div>
+          <button id="wootBtn" class="vote-btn vote-woot">
+            <div class="vote-icon">❤️</div><div class="vote-lbl">WOOT!</div><div id="wootCount" class="vote-num">0</div>
           </button>
         </div>
       </div>
 
-      <!-- REACT BAR -->
-      <div class="px-react-bar">
-        <button class="px-react-btn" data-reaction="like">👍 <span id="likeCount">0</span></button>
-        <button class="px-react-btn" data-reaction="love">❤️ <span id="loveCount">0</span></button>
-        <button class="px-react-btn" data-reaction="fire">🔥 <span id="fireCount">0</span></button>
-        <button class="px-react-btn" data-reaction="wow">😮 <span id="wowCount">0</span></button>
+      <div class="react-bar">
+        <button class="react-btn" data-reaction="like">👍 <span id="likeCount">0</span></button>
+        <button class="react-btn" data-reaction="love">❤️ <span id="loveCount">0</span></button>
+        <button class="react-btn" data-reaction="fire">🔥 <span id="fireCount">0</span></button>
+        <button class="react-btn" data-reaction="wow">😮 <span id="wowCount">0</span></button>
         <div style="flex:1"></div>
-        <div class="px-woot-total">
-          <span>❤️<span id="wootTotal">0</span></span>
-          <span>💔<span id="mehTotal">0</span></span>
-        </div>
+        <div class="vote-totals">👥<span id="onlineCount">0</span></div>
       </div>
 
-      <!-- PIXEL STAGE -->
-      <div class="px-stage" id="stage">
-        <canvas id="stageCanvas" class="px-stage-canvas"></canvas>
-        <!-- Avatar layer on top of canvas -->
-        <div id="audienceWrap" class="px-audience-wrap"></div>
+      <!-- STAGE -->
+      <div class="stage" id="stage">
+        <div class="stage-bg">
+          <div class="stage-sky" id="skyLayer"></div>
+          <div class="stage-city"></div>
+          <div class="stage-floor-bg"></div>
+          <div class="stage-glow"></div>
+        </div>
+
+        <!-- Disco ball -->
+        <div class="disco-ball" id="discoBall">
+          <div class="disco-string"></div>
+          <div class="disco-orb"></div>
+        </div>
+        <!-- Spotlights -->
+        <div class="spotlight spotlight-l" id="spotlightL"></div>
+        <div class="spotlight spotlight-r" id="spotlightR"></div>
+
+        <!-- Equalizer bars -->
+        <div class="equalizer eq-l" id="equalizerL"></div>
+        <div class="equalizer eq-r" id="equalizerR"></div>
+
+        <!-- Speakers -->
+        <div class="speaker speaker-l" id="speakerL"><div class="spk-cone spk-cone-top"></div><div class="spk-cone spk-cone-bot"></div></div>
+        <div class="speaker speaker-r" id="speakerR"><div class="spk-cone spk-cone-top"></div><div class="spk-cone spk-cone-bot"></div></div>
+
         <!-- DJ Booth -->
-        <div class="px-dj-booth">
-          <canvas id="boothCanvas" width="120" height="40" class="px-booth-canvas"></canvas>
-          <div id="djBoothWrap" class="px-dj-booth-av"></div>
-          <div id="djBoothName" class="px-dj-booth-name hidden"></div>
+        <div class="dj-booth">
+          <div id="djBoothFigure" class="dj-booth-fig"></div>
+          <div class="booth-desk">
+            <div class="turntable tt-l"><div class="tt-disc"></div></div>
+            <div class="mixer"><div class="mx-led"></div><div class="mx-led"></div><div class="mx-led"></div></div>
+            <div class="turntable tt-r"><div class="tt-disc"></div></div>
+          </div>
+          <div id="djBoothName" class="dj-booth-name hidden"></div>
         </div>
-        <!-- Stage vote buttons -->
-        <div class="px-stage-btns">
-          <button class="px-stage-vote px-sv-meh" id="svMeh">💔 MEH</button>
-          <button class="px-stage-vote px-sv-woot" id="svWoot">❤️ WOOT!</button>
-        </div>
-        <div class="px-stage-tag">BEARXBABE LIVE</div>
+
+        <!-- Walkable floor -->
+        <div id="agentFloor" class="agent-floor"></div>
+
+        <div class="stage-hint">คลิกบนพื้นเพื่อเดิน 🚶</div>
+        <div class="stage-tag">PIXEL HQ</div>
       </div>
 
     </section>
 
     <!-- RIGHT: Chat -->
-    <aside class="px-panel px-right">
-      <div class="px-panel-hd">[ LIVE CHAT ] <span id="onlineCount2" class="px-badge">0</span></div>
-      <div id="chatBox" class="px-chat-box"></div>
-      <div class="px-chat-foot">
-        <input id="chatInput" placeholder="TYPE MSG..." maxlength="300" autocomplete="off" class="px-input-sm"/>
-        <button id="sendChatBtn" class="px-btn px-btn-send">OK</button>
+    <aside class="right-panel">
+      <div class="panel-hd">💬 CHAT <span id="onlineCount2" class="px-badge">0</span><span class="chat-reset-note">รีเซ็ตเที่ยงคืน</span></div>
+      <div id="chatBox" class="chat-box"></div>
+      <div class="chat-foot">
+        <button id="imgBtn" class="px-btn-img" title="ส่งรูป">📷</button>
+        <input type="file" id="imgInput" accept="image/*" style="display:none"/>
+        <input id="chatInput" placeholder="พิมพ์ข้อความ..." maxlength="300" autocomplete="off" class="px-input-sm"/>
+        <button id="sendChatBtn" class="px-btn-send">ส่ง</button>
       </div>
     </aside>
 
+  </div>
+</div>
+
+<!-- DRESS-UP MODAL -->
+<div id="lookModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <div class="modal-hd"><span>👕 แต่งตัว</span><button id="lookCloseBtn" class="modal-x">×</button></div>
+    <div class="modal-body">
+      <div class="login-grid">
+        <div class="login-form">
+          <label class="px-label">▶ สีผิว</label><div id="skinRow2" class="opt-row"></div>
+          <label class="px-label">▶ ทรงผม</label><div id="hairStyleRow2" class="chip-row"></div>
+          <label class="px-label">▶ สีผม</label><div id="hairColorRow2" class="opt-row"></div>
+          <label class="px-label">▶ เสื้อ</label><div id="outfitRow2" class="opt-row"></div>
+          <label class="px-label">▶ กางเกง</label><div id="pantsRow2" class="opt-row"></div>
+          <label class="px-label">▶ หมวก</label><div id="hatRow2" class="chip-row"></div>
+        </div>
+        <div class="login-preview">
+          <label class="px-label">PREVIEW</label>
+          <div class="preview-stage"><canvas id="previewCanvas2" class="preview-canvas"></canvas></div>
+        </div>
+      </div>
+      <button id="saveLookBtn" class="px-btn-primary" style="margin-top:14px">[ บันทึก ]</button>
+    </div>
   </div>
 </div>
 
